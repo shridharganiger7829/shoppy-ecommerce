@@ -1,0 +1,25 @@
+{
+  "name": "shoppy_ecommerce",
+  "version": "1.0.0",
+  "description": "Ecommerce Project Building from Scratch",
+  "keywords": [
+    "React",
+    "Node",
+    "Express",
+    "Nodemon"
+  ],
+  "homepage": "https://github.com/shridharganiger7829/shoppy-ecommerce#readme",
+  "bugs": {
+    "url": "https://github.com/shridharganiger7829/shoppy-ecommerce/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shridharganiger7829/shoppy-ecommerce.git"
+  },
+  "license": "ISC",
+  "author": "Shridhar Ganiger",
+  "main": "index.js",
+  "devDependencies": {
+    "prettier": "^3.9.6"
+  }
+}
