@@ -5,6 +5,8 @@ import { ApiError } from '../utils/ApiError.js'
 import { ApiResponse } from '../utils/ApiResponse.js'
 import JWTVERIFY from '../middlewares/auth.middleware.js'
 import jwt from "jsonwebtoken";
+import SendEmail from '../utils/SendEmail.js'
+import { pendinguser } from '../models/pendingUser.model.js'
 
 const generateAccessandRefreshToken=async(userId)=>{
   try {
@@ -39,22 +41,95 @@ export const registerUser=asyncHandler( async (req , res)=>{
         throw new ApiError(400,"User Already found");
       }
 
-      const user=await User.create({
-        name,
+
+
+     const otp=Math.floor(100000 + Math.random() * 900000 ).toString();
+
+     const otpExpiry=new Date(Date.now()+10*60*1000);
+
+     await pendinguser.deleteOne({email});
+
+     await pendinguser.create({
+      name,
+      email,
+      password,
+      otp,
+      otpExpiry
+     });
+
+
+    await SendEmail(
         email,
-        password,
-      })
+        "Verify your email for Shoppy Registration",
+        `
+        <div>
+            <h2>Email Verification</h2>
 
-     const createdUser=await User.findById(user._id).select("-password");
+            <p>Hello ${name},</p>
 
-     if(!createdUser){
-      throw new ApiError(400,"Error in creating User")
-     }
+            <p>Your OTP for registration is:</p>
+
+            <h1>${otp}</h1>
+
+            <p>This OTP will expire in 10 minutes.</p>
+
+            <p>Please do not share this OTP with anyone.</p>
+        </div>
+        `
+    );
+
+
 
      return res.status(200).json(
-      new ApiResponse(200,createdUser,"User created successfully")
+      new ApiResponse(200,{},"Otp has sent successfully to your email")
      )
 })
+
+
+export const verifyOtp=asyncHandler(async (req,res)=>{
+    const {email,otp}=req.body;
+
+    if(!email || !otp){
+      throw new ApiError(400,"Email and otp are required");
+    }
+
+    const Pendiguser=await pendinguser.findOne({email});
+
+    if(!Pendiguser){
+      throw new ApiError(400,"Registration request not found");
+    }
+
+    if(Pendiguser.otpExpiry < new Date()){
+      await pendinguser.deleteOne({email});
+      
+      throw new ApiError(400,"Otp has expired");
+
+    }
+
+    if(Pendiguser.otp !== otp){
+      throw new ApiError(400,"Invalid otp");
+    }
+
+
+   const user=await User.create({
+       name: Pendiguser.name,
+       email: Pendiguser.email,
+       password: Pendiguser.password
+   })
+   
+   await pendinguser.deleteOne({email});
+   
+   const createdUser=await User.findById(user._id).select("-password -refreshToken")
+    
+   return res
+   .status(201)
+   .json(
+    new ApiResponse(200,createdUser,"User Registered Successfully")
+   )
+       
+
+})
+
 
 
 export const LoginUser=asyncHandler(async (req,res)=>{
@@ -128,6 +203,14 @@ export const logoutUser = asyncHandler(async (req, res) => {
       new ApiResponse(200, {}, "User logged Out Successfully")
     )
 
+})
+
+
+export const Getallusers=asyncHandler(async (req,res)=>{
+   const users=await User.find();
+   return res.status(200).json(
+    new ApiResponse(200,users,"All users are displayed")
+   )
 })
 
 
