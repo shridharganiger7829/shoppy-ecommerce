@@ -19,7 +19,7 @@ router.post("/login",LoginUser);
 
 router.post("/logout",JWTVERIFY,logoutUser);
 
-router.post("/getusers",JWTVERIFY,admin,Getallusers);
+router.get("/getusers",JWTVERIFY,admin,Getallusers);
 
 router.post("/refresh-access",refreshAccessToken);
 

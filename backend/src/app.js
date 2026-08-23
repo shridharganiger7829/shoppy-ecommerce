@@ -3,6 +3,7 @@ import cors from 'cors'
 import cookieParser from "cookie-parser";
 const app=express();
 import UserRouter from './routes/user.route.js'
+import ProductRouter from "./routes/product.route.js"
 
 app.use(cors({
     origin:process.env.CORS_ORIGIN,
@@ -19,5 +20,7 @@ app.get('/',(req,res)=>{
 
 
 app.use('/api',UserRouter);
+
+app.use("/product",ProductRouter);
 
 export default app;
