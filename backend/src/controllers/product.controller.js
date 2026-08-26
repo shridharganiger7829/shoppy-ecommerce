@@ -82,3 +82,68 @@ export const createProduct=asyncHandler(async (req , res)=>{
            )
 
 })
+
+
+export const UpdateProduct=asyncHandler(async (req , res)=>{
+     const {id}=req.params;
+
+     const {name , description , category , price , stock} = req.body;
+
+     const product=await Products.findById(id);
+
+     if(!product){
+        throw new ApiError(400,"Product is not found");
+     }
+
+     if(req.file){
+        const imagePath=req.file.path
+
+        if(!imagePath){
+            throw new ApiError(400 , "Image file is missing");
+        }
+
+        const image=await uploadOnCloudinary(imagePath);
+
+        if(!image || !image.url){
+            throw new ApiError(400,"Error in uploading to cloudinary");
+        }
+
+        product.image=image.url;
+        
+     }
+
+     if(name !== undefined)  product.name=name;
+
+     if(description !== undefined)   product.description=description;
+
+     if(category !== undefined)    product.category=category;
+
+     if(price !== undefined)    product.price=price;
+
+     if(stock !== undefined)   product.stock=stock;
+
+     product.save();
+
+     return res.status(200)
+     .json(
+        new ApiResponse(200 , product , "Product is updated successfully")
+     )
+})
+
+
+
+export const deleteProduct=asyncHandler(async (req ,  res)=>{
+    const {id}=req.params;
+
+    const product=await Products.findById(id);
+
+    if(!product){
+        throw new ApiError(400 , "Product is not found");
+    }
+
+    await Products.findByIdAndDelete(id);
+
+    return res.status(200).json(
+        new ApiResponse(200 , {}, "Product is deleted successfully")
+    )
+})
