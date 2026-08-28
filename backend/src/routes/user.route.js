@@ -7,7 +7,7 @@ import { registerUser ,
          Getallusers
 } from "../controllers/user.controller.js";
 import JWTVERIFY from "../middlewares/auth.middleware.js"
-import admin from "../middlewares/admin.moddleware.js";
+import admin from "../middlewares/admin.middleware.js";
 
 const router = Router();
 

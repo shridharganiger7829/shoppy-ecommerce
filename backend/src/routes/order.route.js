@@ -1,7 +1,7 @@
 import Router from "express"
 import JWTVERIFY from "../middlewares/auth.middleware.js";
 import { createOrder ,getorders , getMyOrders , updateOrderStatus , cancelMyOrder} from "../controllers/order.controller.js";
-import admin from "../middlewares/admin.moddleware.js";
+import admin from "../middlewares/admin.middleware.js";
 
 const router=Router();
 
