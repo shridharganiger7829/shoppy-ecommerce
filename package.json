@@ -19,7 +19,17 @@
   "license": "ISC",
   "author": "Shridhar Ganiger",
   "main": "index.js",
+  "scripts": {
+  "setup": "cd backend && npm install && cd ../frontend/Shoppy_ECOMMERCE && npm install",
+  "dev:server": "cd backend && npm run dev",
+  "dev:client": "cd frontend/Shoppy_ECOMMERCE && npm run dev",
+  "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+  "build": "cd frontend/Shoppy_ECOMMERCE && npm run build"
+  },
   "devDependencies": {
     "prettier": "^3.9.6"
+  },
+  "dependencies": {
+    "concurrently": "^10.0.5"
   }
 }
