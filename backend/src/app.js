@@ -33,4 +33,15 @@ app.use("/cart", CartRouter);
 
 app.use("/admin",AdminRouter)
 
+//It helps in coneverting ApiErrors into jSON format
+app.use((err, req, res, next) => {
+    const statusCode = err.statusCode || 500;
+
+    res.status(statusCode).json({
+        success: err.success || false,
+        message: err.message || "Something went wrong",
+        errors: err.errors || [],
+    });
+});
+
 export default app;

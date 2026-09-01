@@ -7,7 +7,7 @@ export default function Navbar(){
           <div className="navbar">
              <div className="navbar-left">
                <Link to="/" className="logo">
-                 <img src="/ShoppyImage.png" alt="Shoppy" />
+                 <img src="/ShoppyImage.jpg" alt="Shoppy" />
                  <span>Shoppy</span>
                </Link>
              </div>
@@ -16,6 +16,7 @@ export default function Navbar(){
                <Link to="/">Shop</Link>
                <Link to="/cart">Cart</Link>
                <Link to="/register">Register</Link>
+               <Link to="/login">Login</Link>
                <Link to="/profile">Profile</Link>
              </div>
           </div>

@@ -4,6 +4,7 @@ import { registerUser ,
          LoginUser ,
          logoutUser,
          refreshAccessToken,
+         getCurrentUser,
          Getallusers
 } from "../controllers/user.controller.js";
 import JWTVERIFY from "../middlewares/auth.middleware.js"
@@ -18,6 +19,8 @@ router.post("/verify-otp",verifyOtp);
 router.post("/login",LoginUser);
 
 router.post("/logout",JWTVERIFY,logoutUser);
+
+router.route("/me").get(JWTVERIFY, getCurrentUser)
 
 router.get("/getusers",JWTVERIFY,admin,Getallusers);
 

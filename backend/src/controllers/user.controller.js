@@ -7,6 +7,7 @@ import JWTVERIFY from '../middlewares/auth.middleware.js'
 import jwt from "jsonwebtoken";
 import SendEmail from '../utils/SendEmail.js'
 import { pendinguser } from '../models/pendingUser.model.js'
+import { json } from 'express'
 
 const generateAccessandRefreshToken=async(userId)=>{
   try {
@@ -146,13 +147,13 @@ export const LoginUser=asyncHandler(async (req,res)=>{
     const user=await User.findOne({email});
 
     if(!user){
-      throw new ApiError(400,"User not registered");
+      throw new ApiError(401,"User not registered");
     }
 
     const isPasswordCorrect=await user.isPasswordCorrect(password);
 
     if(!isPasswordCorrect){
-      throw new ApiError(500,"Password is not correct");
+      throw new ApiError(401,"Password is not correct");
     }
     
     const {AccessToken , RefreshToken}=await generateAccessandRefreshToken(user._id);
@@ -203,6 +204,19 @@ export const logoutUser = asyncHandler(async (req, res) => {
       new ApiResponse(200, {}, "User logged Out Successfully")
     )
 
+})
+
+
+export const getCurrentUser=asyncHandler(async (req , res)=>{
+  const userId=req.user._id;
+
+  if(!userId) throw new ApiError(404 , "Invalid token request")
+
+    const user=await User.findById(userId).select("-password  -refreshToken");
+
+    return res.status(200).json(
+      new ApiResponse(200 , user , "Current User fetched Successfully")
+    )
 })
 
 
