@@ -15,6 +15,7 @@ export default function Navbar(){
              <div className="navbar-right">
                <Link to="/">Shop</Link>
                <Link to="/cart">Cart</Link>
+               <Link to="/register">Register</Link>
                <Link to="/profile">Profile</Link>
              </div>
           </div>

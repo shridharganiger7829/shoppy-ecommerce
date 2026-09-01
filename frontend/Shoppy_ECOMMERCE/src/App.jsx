@@ -3,6 +3,8 @@ import {BrowserRouter , Routes , Route} from "react-router-dom"
 import HomePage from "./pages/HomePage.jsx"
 import Navbar from "./components/Navbar.jsx"
 import Footer from "./components/Footer.jsx"
+import RegisterPage from "./pages/RegisterPage.jsx";
+import VerifyOtp from "./pages/VerifyOtp.jsx";
 
 export default function App(){
    return(
@@ -12,6 +14,8 @@ export default function App(){
 
         <Routes>
           <Route path="/"  element={<HomePage />}/>
+          <Route path="/register" element={<RegisterPage />}/>
+          <Route path="/verify-otp" element={<VerifyOtp />}/>
         </Routes>
         
          <Footer />
