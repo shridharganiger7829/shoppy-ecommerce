@@ -6,6 +6,13 @@ import Footer from "./components/Footer.jsx"
 import RegisterPage from "./pages/RegisterPage.jsx";
 import VerifyOtp from "./pages/VerifyOtp.jsx";
 import Login from "./pages/LoginPage.jsx";
+import Profile from "./pages/Profile.jsx";
+import Orders from "./pages/Orders.jsx";
+import Cart from "./pages/Cart.jsx";
+import AdminDashboard from "./pages/AdminDashboard.jsx";
+
+import ProtectedRoute from "./Routes/ProtectedRoute.jsx";
+import AdminRoute from "./Routes/AdminRoute.jsx";
 
 export default function App(){
    return(
@@ -18,6 +25,18 @@ export default function App(){
           <Route path="/register" element={<RegisterPage />}/>
           <Route path="/verify-otp" element={<VerifyOtp />}/>
           <Route path="/login" element={<Login />}/>
+
+          //Protected Routes
+          <Route element={<ProtectedRoute />}>
+            <Route path="/profile" element={<Profile />}/>
+            <Route path="/orders"  element={<Orders />}/>
+            <Route path="/cart"  element={<Cart />}/>
+          </Route>
+
+          //AdminRoute
+          <Route element={<AdminRoute />}>
+            <Route  path="/admin" element={<AdminDashboard />}/>
+          </Route>
         </Routes>
         
          <Footer />

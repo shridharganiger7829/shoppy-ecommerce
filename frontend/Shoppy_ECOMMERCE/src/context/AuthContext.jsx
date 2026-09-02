@@ -1,31 +1,66 @@
+import { createContext , useState , useEffect , useContext } from "react";
 
-// import { createContext ,useState } from "react";
+export const AuthContext=createContext();
 
-// export const AuthContext=createContext();
+export const AuthProvider=({children})=>{
+    const [user , setUser]=useState(null);
+    const [loading , setLoading]=useState(true);
 
-// export const AuthProvider=({children})=>{
+    const checkAuth=async ()=>{
+        try {
+            const response=await fetch("http://localhost:8000/user/me",{
+                credentials:"include"
+            });
 
-//     const [user, setUser] = useState(() => {
-//        const userInfo = localStorage.getItem("userInfo");
-//        return userInfo ? JSON.parse(userInfo) : null;
-//     });
+            if(!response.ok){
+                setUser(null)
+                return;
+            }
 
-//     const login=(userdata)=>{
-//         setUser(userdata)
-//         localStorage.setItem("userInfo",JSON.stringify(userdata));
-//     }
+            const result=await response.json()
 
-//     const logout=()=>{
-//         setUser(null);
-//         localStorage.removeItem("userInfo")
-//     }
+            setUser(result.data)
 
-//     return (
-//         <>
-//           <AuthContext.Provider     value={{user,login,logout}}>
-//              {children}
-//           </AuthContext.Provider>
+        } catch (error) {
+            console.log("Authntication check failed: ",error)
+            setUser(null)
+        }finally{
+            setLoading(false)
+        }
+    }
 
-//         </>
-//     )
-// }
+    useEffect(()=>{
+        checkAuth()
+    },[])
+
+    const login=(userData)=>{
+         setUser(userData);
+    }
+
+    const logout=async ()=>{
+        try {
+                await fetch(
+                "http://localhost:8000/user/logout",
+                {
+                    method: "POST",
+                    credentials: "include",
+                }
+            )
+        } catch (error) {
+            console.log("Logout error: ",error)
+        }finally{
+            setUser(null)
+        }
+    }
+
+    return (
+        <AuthContext.Provider value={{login , loading ,logout , user}}>
+            {children}
+        </AuthContext.Provider>
+    )
+
+}
+
+export const useAuth=()=>{
+    return useContext(AuthContext);
+}

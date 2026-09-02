@@ -1,17 +1,27 @@
-import {useDispatch , useSelector} from "react-redux"
+// import {useDispatch , useSelector} from "react-redux"
+// import { loginUser } from "../redux/authSlice"
+
 import { useState } from "react"
-import { loginUser } from "../redux/authSlice"
 import "../styles/Login.css"
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Login(){
-    const dispatch=useDispatch();
+    // const dispatch=useDispatch();
 
-    const {loading , error , loginSuccess}=useSelector((state)=>state.auth)
+    // const {loading , error , loginSuccess}=useSelector((state)=>state.auth)
+
+   const {login}=useAuth();
+
+   const navigate=useNavigate();
 
     const [formData , setformData]=useState({
         email:"",
         password:""
     })
+
+    const [error , setError]=useState("");
+    const [loading , setLoading]=useState(false);
 
     const handleChange=(e)=>{
         setformData({
@@ -19,10 +29,39 @@ export default function Login(){
              [e.target.name]:e.target.value })
     }
 
-    const handleSubmit=(e)=>{
+    const handleSubmit=async (e)=>{
         e.preventDefault();
+        
+        setError("");
+        setLoading(true);
 
-        dispatch(loginUser(formData))
+        try {
+          const response=await fetch("http://localhost:8000/user/login" , {
+            method:"POST",
+            
+            headers:{
+              "Content-Type":"application/json"
+            },
+            credentials:"include",
+            body:JSON.stringify(formData)
+
+          })
+
+          const result=await response.json();
+
+          if(!response.ok){
+            throw new Error(result.message || "Login Failed")
+          }
+
+          login(result.data.loggedInUser);
+
+          navigate("/")
+
+        } catch (error) {
+            setError(error.message)
+        }finally{
+          setLoading(false);
+        }
     }
 
     return(
@@ -62,12 +101,6 @@ export default function Login(){
           {error && (
             <p className="login-error">
               {error}
-            </p>
-          )}
-
-          {loginSuccess && (
-            <p className="login-success">
-              Login successful!
             </p>
           )}
 

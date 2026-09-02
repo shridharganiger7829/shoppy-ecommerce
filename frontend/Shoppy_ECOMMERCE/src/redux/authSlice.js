@@ -48,39 +48,39 @@ export const verifyOtp=createAsyncThunk(
 )
 
 
-export const loginUser = createAsyncThunk(
-    "auth/loginUser",
+// export const loginUser = createAsyncThunk(
+//     "auth/loginUser",
 
-    async ({ email, password }, { rejectWithValue }) => {
-        try {
-            const response = await fetch(
-                "http://localhost:8000/user/login",
-                {
-                    method: "POST",
-                    credentials: "include",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
+//     async ({ email, password }, { rejectWithValue }) => {
+//         try {
+//             const response = await fetch(
+//                 "http://localhost:8000/user/login",
+//                 {
+//                     method: "POST",
+//                     credentials: "include",
+//                     headers: {
+//                         "Content-Type": "application/json",
+//                     },
 
-                    body: JSON.stringify({
-                        email,
-                        password,
-                    }),
-                }
-            );
-            const result = await response.json();
+//                     body: JSON.stringify({
+//                         email,
+//                         password,
+//                     }),
+//                 }
+//             );
+//             const result = await response.json();
             
-            if (!response.ok) {
-                return rejectWithValue(result.message);
-            }
+//             if (!response.ok) {
+//                 return rejectWithValue(result.message);
+//             }
 
-            return result;
+//             return result;
 
-        } catch (error) {
-            return rejectWithValue(error.message);
-        }
-    }
-);
+//         } catch (error) {
+//             return rejectWithValue(error.message);
+//         }
+//     }
+// );
 
 const authSlice=createSlice({
     name:"auth",
@@ -132,23 +132,23 @@ const authSlice=createSlice({
         state.error=action.error.message
        })
 
-       .addCase(loginUser.pending , (state)=>{
-        state.loading=true,
-        state.loginSuccess=false,
-        state.error=null
-       })
+    //    .addCase(loginUser.pending , (state)=>{
+    //     state.loading=true,
+    //     state.loginSuccess=false,
+    //     state.error=null
+    //    })
 
-       .addCase(loginUser.fulfilled , (state ,action)=>{
-        state.loading=false,
-        state.loginSuccess=true,
-        state.user=action.payload.data.loggedInUser
-       })
+    //    .addCase(loginUser.fulfilled , (state ,action)=>{
+    //     state.loading=false,
+    //     state.loginSuccess=true,
+    //     state.user=action.payload.data.loggedInUser
+    //    })
 
-       .addCase(loginUser.rejected , (state , action)=>{
-        state.loading=false;
-        state.loginSuccess=false;
-        state.error=action.payload || "Login failed"
-       })
+    //    .addCase(loginUser.rejected , (state , action)=>{
+    //     state.loading=false;
+    //     state.loginSuccess=false;
+    //     state.error=action.payload || "Login failed"
+    //    })
 
     },
 })
