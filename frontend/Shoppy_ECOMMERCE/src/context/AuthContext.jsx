@@ -1,4 +1,5 @@
 import { createContext , useState , useEffect , useContext } from "react";
+import { apiFetch } from "../api/api";
 
 export const AuthContext=createContext();
 
@@ -8,9 +9,11 @@ export const AuthProvider=({children})=>{
 
     const checkAuth=async ()=>{
         try {
-            const response=await fetch("http://localhost:8000/user/me",{
-                credentials:"include"
-            });
+            // const response=await fetch("http://localhost:8000/user/me",{
+            //     credentials:"include"
+            // });
+
+            const response=await apiFetch("/user/me");
 
             if(!response.ok){
                 setUser(null)
@@ -39,13 +42,18 @@ export const AuthProvider=({children})=>{
 
     const logout=async ()=>{
         try {
-                await fetch(
-                "http://localhost:8000/user/logout",
-                {
-                    method: "POST",
-                    credentials: "include",
-                }
-            )
+            //     await fetch(
+            //     "http://localhost:8000/user/logout",
+            //     {
+            //         method: "POST",
+            //         credentials: "include",
+            //     }
+            // )
+
+            await apiFetch("/user/logout" , {
+                method:"POST"
+            })
+            
         } catch (error) {
             console.log("Logout error: ",error)
         }finally{

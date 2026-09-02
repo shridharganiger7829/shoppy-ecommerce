@@ -5,6 +5,7 @@ import { useState } from "react"
 import "../styles/Login.css"
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { apiFetch } from "../api/api";
 
 export default function Login(){
     // const dispatch=useDispatch();
@@ -36,15 +37,23 @@ export default function Login(){
         setLoading(true);
 
         try {
-          const response=await fetch("http://localhost:8000/user/login" , {
-            method:"POST",
+          // const response=await fetch("http://localhost:8000/user/login" , {
+          //   method:"POST",
             
+          //   headers:{
+          //     "Content-Type":"application/json"
+          //   },
+          //   credentials:"include",
+          //   body:JSON.stringify(formData)
+
+          // })
+
+          const response=await apiFetch("/user/login" , {
+            method:"POST",
             headers:{
               "Content-Type":"application/json"
             },
-            credentials:"include",
             body:JSON.stringify(formData)
-
           })
 
           const result=await response.json();
