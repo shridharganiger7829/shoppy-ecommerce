@@ -43,3 +43,29 @@
   font-size: 14px;
   color: #777;
 }
+
+.product-card a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.product-card {
+  background: white;
+  border-radius: 15px;
+  padding: 18px;
+
+  box-shadow: 0 5px 20px rgba(72, 52, 212, 0.12);
+
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px rgba(72, 52, 212, 0.2);
+}

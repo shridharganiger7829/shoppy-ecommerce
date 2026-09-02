@@ -10,6 +10,7 @@ import Profile from "./pages/Profile.jsx";
 import Orders from "./pages/Orders.jsx";
 import Cart from "./pages/Cart.jsx";
 import AdminDashboard from "./pages/AdminDashboard.jsx";
+import ProductDetails from "./pages/ProductDetails.jsx";
 
 import ProtectedRoute from "./Routes/ProtectedRoute.jsx";
 import AdminRoute from "./Routes/AdminRoute.jsx";
@@ -26,6 +27,8 @@ export default function App(){
           <Route path="/verify-otp" element={<VerifyOtp />}/>
           <Route path="/login" element={<Login />}/>
 
+          <Route path="/product/:id"  element={<ProductDetails />}/>
+
           //Protected Routes
           <Route element={<ProtectedRoute />}>
             <Route path="/profile" element={<Profile />}/>
@@ -39,7 +42,7 @@ export default function App(){
           </Route>
         </Routes>
         
-         <Footer />
+         {/* <Footer /> */}
 
        
        </BrowserRouter>
