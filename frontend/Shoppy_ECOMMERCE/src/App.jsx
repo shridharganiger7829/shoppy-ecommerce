@@ -14,6 +14,9 @@ import ProductDetails from "./pages/ProductDetails.jsx";
 
 import ProtectedRoute from "./Routes/ProtectedRoute.jsx";
 import AdminRoute from "./Routes/AdminRoute.jsx";
+import AddProduct from "./pages/AddProduct.jsx";
+import AdminProducts from "./pages/AdminProducts.jsx";
+import EditProduct from "./pages/EditProduct.jsx";
 
 export default function App(){
    return(
@@ -37,9 +40,13 @@ export default function App(){
           </Route>
 
           //AdminRoute
-          <Route element={<AdminRoute />}>
-            <Route  path="/admin" element={<AdminDashboard />}/>
+          <Route element={<AdminRoute />} >
+            <Route  path="/admin" element={<AdminDashboard />} />
+            <Route  path="/admin/products/add"  element={<AddProduct />} />
+            <Route path="/admin/products"  element={<AdminProducts />} />
+            <Route  path="/admin/products/edit/:id" element={<EditProduct />}/>
           </Route>
+
         </Routes>
         
          {/* <Footer /> */}

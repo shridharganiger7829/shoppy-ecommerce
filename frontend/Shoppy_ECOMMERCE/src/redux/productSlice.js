@@ -66,6 +66,52 @@ export const createProduct=createAsyncThunk(
     }
 )
 
+export const deleteProduct=createAsyncThunk(
+    "products/deleteProduct" ,
+
+    async(id , {rejectWithValue})=>{
+        try {
+            const response=await apiFetch(`/product/${id}` , 
+                {
+                    method:"DELETE"
+                }
+            )
+
+            const result=await response.json();
+
+            if(!response.ok){
+                return rejectWithValue(result.message || "Failed to delete product")
+            }
+
+            return id;
+        } catch (error) {
+            return rejectWithValue(error.message || "Something went wrong")
+        }
+    }
+)
+
+export const updateProduct=createAsyncThunk(
+    "products/updateProduct",
+    async ({formData , id} , {rejectWithValue})=>{
+        try {
+            const response=await apiFetch(`/product/${id}`,
+                {
+                    method:"PATCH",
+                    body:formData
+                }
+            )
+
+            const result=await response.json();
+            if(!response.ok){
+                return rejectWithValue(result.message || "Failed to update the product")
+            }
+             return result.data;
+        } catch (error) {
+            return rejectWithValue(error.message || "Something went wrong")
+        }
+    }
+)
+
 
 const productSlice=createSlice({
     name:"products",
@@ -126,6 +172,45 @@ const productSlice=createSlice({
             state.loading=false;
             state.error=action.payload;
         })
+
+        .addCase(deleteProduct.pending , (state)=>{
+            state.loading=true,
+            state.error=null
+        })
+
+        .addCase(deleteProduct.fulfilled , (state , action)=>{
+            state.loading=false;
+            state.products=state.products.filter((product)=>product._id !== action.payload)
+        })
+
+        .addCase(deleteProduct.rejected , (state , action)=>{
+            state.loading=false, 
+            state.error=action.error.message 
+        })
+
+        .addCase(updateProduct.pending, (state) => {
+           state.loading = true;
+           state.error = null;
+        })
+
+        .addCase(updateProduct.fulfilled, (state, action) => {
+           state.loading = false;
+
+           const updatedProduct = action.payload;
+
+           const index = state.products.findIndex(
+            (product) => product._id === updatedProduct._id
+        );
+
+        if (index !== -1) {
+           state.products[index] = updatedProduct;
+         }
+       })
+
+       .addCase(updateProduct.rejected, (state, action) => {
+          state.loading = false;
+           state.error = action.error.message;
+       })
     }
 })
 

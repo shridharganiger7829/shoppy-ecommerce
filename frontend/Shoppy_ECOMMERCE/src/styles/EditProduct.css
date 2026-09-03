@@ -1,0 +1,140 @@
+.edit-product-page {
+    max-width: 650px;
+    margin: 50px auto;
+    padding: 35px;
+
+    background: white;
+    border-radius: 16px;
+
+    box-shadow: 0 8px 25px rgba(72, 52, 212, 0.12);
+}
+
+
+/* Heading */
+
+.edit-product-page h1 {
+    text-align: center;
+    margin-bottom: 30px;
+
+    color: #2d1b69;
+    font-size: 30px;
+}
+
+
+/* Form */
+
+.edit-product-page form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+
+/* Inputs */
+
+.edit-product-page input,
+.edit-product-page textarea {
+    width: 100%;
+    padding: 13px 15px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #ddd;
+    border-radius: 8px;
+
+    font-size: 15px;
+
+    outline: none;
+
+    transition: 0.2s;
+}
+
+
+.edit-product-page textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+
+/* Focus */
+
+.edit-product-page input:focus,
+.edit-product-page textarea:focus {
+    border-color: #4834d4;
+
+    box-shadow: 0 0 0 2px rgba(72, 52, 212, 0.1);
+}
+
+
+/* File input */
+
+.edit-product-page input[type="file"] {
+    padding: 10px;
+
+    background: #f7f7ff;
+
+    cursor: pointer;
+}
+
+
+/* Update Button */
+
+.edit-product-page button {
+    margin-top: 10px;
+
+    padding: 13px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #4834d4;
+    color: white;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+
+.edit-product-page button:hover {
+    background: #3625b5;
+}
+
+
+.edit-product-page button:disabled {
+    background: #aaa;
+    cursor: not-allowed;
+}
+
+
+/* Error */
+
+.edit-product-page .error {
+    padding: 10px;
+
+    background: #ffeaea;
+    color: #d63031;
+
+    border-radius: 7px;
+
+    text-align: center;
+}
+
+
+/* Mobile */
+
+@media (max-width: 700px) {
+
+    .edit-product-page {
+        margin: 25px 15px;
+        padding: 25px 20px;
+    }
+
+    .edit-product-page h1 {
+        font-size: 25px;
+    }
+
+}

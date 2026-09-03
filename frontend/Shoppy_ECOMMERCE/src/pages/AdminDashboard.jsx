@@ -2,9 +2,12 @@ import { useDispatch , useSelector } from "react-redux"
 import { getDashboardStats } from "../redux/adminSlice"
 import { useEffect } from "react";
 import "../styles/AdminDashboard.css"
+import { useNavigate } from "react-router-dom";
 
 export default function AdminDashboard(){
 const dispatch=useDispatch();
+
+const navigate=useNavigate();
 
 const {dashboardStats , loading , error}=useSelector((state)=>state.admin)
 
@@ -36,9 +39,16 @@ if (!dashboardStats) {
     return(
     
     
-    <div className="admin-dashboard">
+    <div className="admin-dashboard-header">
 
         <h1>Admin Dashboard</h1>
+
+        <button
+          onClick={() => navigate("/admin/products")}
+          className="manage-products-btn"
+        >
+          Manage Products
+         </button>
 
         <div>
 
