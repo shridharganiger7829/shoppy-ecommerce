@@ -38,53 +38,68 @@ if (!dashboardStats) {
 
     return(
     
-    
     <div className="admin-dashboard-header">
+
+    <div className="admin-dashboard-top">
 
         <h1>Admin Dashboard</h1>
 
-        <button
-          onClick={() => navigate("/admin/products")}
-          className="manage-products-btn"
-        >
-          Manage Products
-         </button>
+        <div className="admin-dashboard-actions">
 
-        <div>
+            <button
+                onClick={() => navigate("/admin/products")}
+                className="manage-products-btn"
+            >
+                Manage Products
+            </button>
 
-            <div>
-                <h3>Total Users</h3>
-                <p>{dashboardStats.totalUsers}</p>
-            </div>
-
-            <div>
-                <h3>Total Products</h3>
-                <p>{dashboardStats.totalProducts}</p>
-            </div>
-
-            <div>
-                <h3>Total Orders</h3>
-                <p>{dashboardStats.totalOrders}</p>
-            </div>
-
-            <div>
-                <h3>Pending Orders</h3>
-                <p>{dashboardStats.PendingOrders}</p>
-            </div>
-
-            <div>
-                <h3>Delivered Orders</h3>
-                <p>{dashboardStats.DeliveredOrders}</p>
-            </div>
-
-            <div>
-                <h3>Cancelled Orders</h3>
-                <p>{dashboardStats.CancelledOrders}</p>
-            </div>
+            <button
+                onClick={() => navigate("/admin/users")}
+                className="all-users-btn"
+            >
+                All Users
+            </button>
 
         </div>
 
     </div>
+
+
+    <div className="admin-dashboard-stats">
+
+        <div onClick={() => navigate("/admin/users")}>
+            <h3>Total Users</h3>
+            <p>{dashboardStats.totalUsers}</p>
+        </div>
+
+        <div onClick={() => navigate("/admin/products")}>
+            <h3>Total Products</h3>
+            <p>{dashboardStats.totalProducts}</p>
+        </div>
+
+        <div>
+            <h3>Total Orders</h3>
+            <p>{dashboardStats.totalOrders}</p>
+        </div>
+
+        <div>
+            <h3>Pending Orders</h3>
+            <p>{dashboardStats.PendingOrders}</p>
+        </div>
+
+        <div>
+            <h3>Delivered Orders</h3>
+            <p>{dashboardStats.DeliveredOrders}</p>
+        </div>
+
+        <div>
+            <h3>Cancelled Orders</h3>
+            <p>{dashboardStats.CancelledOrders}</p>
+        </div>
+
+    </div>
+
+</div>
 );
      
     

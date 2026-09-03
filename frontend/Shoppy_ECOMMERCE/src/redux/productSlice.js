@@ -185,7 +185,7 @@ const productSlice=createSlice({
 
         .addCase(deleteProduct.rejected , (state , action)=>{
             state.loading=false, 
-            state.error=action.error.message 
+            state.error=action.payload;
         })
 
         .addCase(updateProduct.pending, (state) => {
@@ -209,7 +209,7 @@ const productSlice=createSlice({
 
        .addCase(updateProduct.rejected, (state, action) => {
           state.loading = false;
-           state.error = action.error.message;
+           state.error = action.payload;
        })
     }
 })

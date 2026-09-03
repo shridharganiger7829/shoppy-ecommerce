@@ -17,6 +17,7 @@ import AdminRoute from "./Routes/AdminRoute.jsx";
 import AddProduct from "./pages/AddProduct.jsx";
 import AdminProducts from "./pages/AdminProducts.jsx";
 import EditProduct from "./pages/EditProduct.jsx";
+import AdminUsers from "./pages/AdminUsers.jsx";
 
 export default function App(){
    return(
@@ -45,6 +46,7 @@ export default function App(){
             <Route  path="/admin/products/add"  element={<AddProduct />} />
             <Route path="/admin/products"  element={<AdminProducts />} />
             <Route  path="/admin/products/edit/:id" element={<EditProduct />}/>
+            <Route path="/admin/users"  element={<AdminUsers />}/>
           </Route>
 
         </Routes>
