@@ -35,15 +35,27 @@ export const addToCart=asyncHandler(async (req ,res)=>{
         });
     }else{
         const existingProduct= cart.items.find((item)=>item.product.toString()===productId);
+        
+        if (existingProduct) {
 
-        if(existingProduct){
-            existingProduct.quantity += quantity;
-        }else{
-            cart.items.push({
-                product:productId,
-                quantity:quantity
-            })
-        }
+    const newQuantity = existingProduct.quantity + quantity;
+
+    if (newQuantity > product.stock) {
+        throw new ApiError(
+            400,
+            "Not enough stock available"
+        );
+    }
+
+    existingProduct.quantity = newQuantity;
+
+} else {
+
+    cart.items.push({
+        product: productId,
+        quantity
+    });
+}
 
         await cart.save();
     }

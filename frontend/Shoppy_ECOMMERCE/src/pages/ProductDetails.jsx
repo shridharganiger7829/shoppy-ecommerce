@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import {
     useDispatch,
@@ -11,6 +11,8 @@ import {
     getProductById
 } from "../redux/productSlice.js";
 
+import { addToCart } from "../redux/cartSlice.js";
+
 import "../styles/ProductDetails.css"
 
 const ProductDetails = () => {
@@ -19,6 +21,7 @@ const ProductDetails = () => {
 
     const dispatch = useDispatch();
 
+   const [quantity , setQuantity]=useState(1);
 
     const {
         selectedProduct,
@@ -27,6 +30,8 @@ const ProductDetails = () => {
     } = useSelector(
         (state) => state.products
     );
+
+    const {cartLoading , cartError}=useSelector((state)=>state.cart);
 
 
     // GET PRODUCT
@@ -74,6 +79,29 @@ const ProductDetails = () => {
 
     }
 
+    const increaseQuantity=()=>{
+        if(quantity<selectedProduct.stock){
+            setQuantity(quantity+1);
+        }
+    }
+
+    const decreaseQuantity=()=>{
+        if(quantity>1){
+            setQuantity(quantity-1);
+        }
+    }
+
+    const handleAddCart=async ()=>{
+        const result=await dispatch(addToCart({
+            productId:selectedProduct._id,
+            quantity:quantity
+        }))
+
+        if(addToCart.fulfilled.match(result)){
+            alert("Product added to the cart")
+        }
+    }
+
 
     return (
 
@@ -99,12 +127,45 @@ const ProductDetails = () => {
         </p>
 
         <p className="product-stock">
-            Stock: {selectedProduct.stock}
-        </p>
+    Stock: {selectedProduct.stock}
+</p>
 
-        <button>
-            Add to Cart
-        </button>
+<div className="quantity-control">
+
+    <button
+        onClick={decreaseQuantity}
+        disabled={quantity === 1}
+    >
+        -
+    </button>
+
+    <span>{quantity}</span>
+
+    <button
+        onClick={increaseQuantity}
+        disabled={quantity === selectedProduct.stock}
+    >
+        +
+    </button>
+
+</div>
+
+<button
+    className="add-to-cart-btn"
+    onClick={handleAddCart}
+    disabled={cartLoading}
+>
+    {cartLoading
+        ? "Adding..."
+        : "Add to Cart"
+    }
+</button>
+
+{cartError && (
+    <p className="cart-error">
+        {cartError}
+    </p>
+)}
 
     </div>
 
