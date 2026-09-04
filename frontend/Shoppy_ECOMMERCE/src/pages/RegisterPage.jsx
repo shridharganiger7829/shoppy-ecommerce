@@ -2,9 +2,11 @@ import {useDispatch , useSelector} from "react-redux"
 import { registerUser } from "../redux/authSlice"
 import { useState } from "react";
 import "../styles/Register.css";
+import { useNavigate } from "react-router-dom";
 
 const RegisterPage=()=>{
     const dispatch=useDispatch();
+    const navigate=useNavigate();
 
     const { loading , error , registerSuccess}=useSelector((state)=>state.auth);
 
@@ -21,10 +23,15 @@ const RegisterPage=()=>{
         })
     }
 
-    const handleSubmit=(e)=>{
-        e.preventDefault(),
+    const handleSubmit=async (e) =>{
+        e.preventDefault();
 
-        dispatch(registerUser(formData));
+        const  result=await dispatch(registerUser(formData));
+
+        if(registerUser.fulfilled.match(result)){
+           alert("Otp sent to your email");
+           navigate("/verify-otp")
+        }
     }
 
     return(<>

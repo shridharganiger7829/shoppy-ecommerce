@@ -113,8 +113,10 @@ export const updateCart=asyncHandler(async (req , res)=>{
    
     await cart.save();
 
+    const populatedCart = await Cart.findById(cart._id).populate("items.product");
+
     return res.status(200).json(
-        new ApiResponse(200 , cart , "Cart is updated successfully")
+        new ApiResponse(200 , populatedCart , "Cart is updated successfully")
     )
     
 })
@@ -138,9 +140,10 @@ export const deleteCart=asyncHandler(async (req ,res)=>{
     cart.items=cart.items.filter((item)=>item.product.toString() !== productId);
 
     await cart.save();
+    const populatedCart = await Cart.findById(cart._id).populate("items.product");
 
     return res.status(200).json(
-        new ApiResponse(200 , cart , "Product is deleted from the cart")
+        new ApiResponse(200 , populatedCart , "Product is deleted from the cart")
     )
 })
 

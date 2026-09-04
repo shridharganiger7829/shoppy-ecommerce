@@ -12,6 +12,7 @@ import Cart from "./pages/Cart.jsx";
 import AdminDashboard from "./pages/AdminDashboard.jsx";
 import ProductDetails from "./pages/ProductDetails.jsx";
 
+
 import ProtectedRoute from "./Routes/ProtectedRoute.jsx";
 import AdminRoute from "./Routes/AdminRoute.jsx";
 import AddProduct from "./pages/AddProduct.jsx";
@@ -31,13 +32,14 @@ export default function App(){
           <Route path="/verify-otp" element={<VerifyOtp />}/>
           <Route path="/login" element={<Login />}/>
 
-          <Route path="/product/:id"  element={<ProductDetails />}/>
+          
 
           //Protected Routes
           <Route element={<ProtectedRoute />}>
             <Route path="/profile" element={<Profile />}/>
             <Route path="/orders"  element={<Orders />}/>
             <Route path="/cart"  element={<Cart />}/>
+            <Route path="/product/:id"  element={<ProductDetails />}/>
           </Route>
 
           //AdminRoute
